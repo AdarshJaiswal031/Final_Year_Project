@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ConnectButton } from "web3uikit";
 import React, { useEffect, useState } from "react";
 import { auth, provider } from "./config";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { generateSHA256Hash } from "../utils/cryptoHash";
 
 import { Button, ico } from "web3uikit";
@@ -14,7 +14,12 @@ export default function Header() {
       localStorage.setItem("fakexAuth", await generateSHA256Hash(data.user.uid));
     });
   };
-
+  const handleSignOut = () => {
+    signOut(auth).then(() => {
+      localStorage.removeItem("fakexAuth");
+      setvalue("");
+    });
+  };
   useEffect(() => {
     setvalue(localStorage.getItem("fakexAuth"));
   });
@@ -30,6 +35,7 @@ export default function Header() {
       }
     }
   };
+
   return (
     <nav className="p-5 border-b-2 flex flex-row justify-between items-center shadow-xl bg-gray-800 text-white">
       <h1 className="py-4 px-4 font-bold text-3xl">FAKE-X</h1>
@@ -55,7 +61,15 @@ export default function Header() {
           <a className="mr-4 p-6">Profile</a>
         </Link>
         {value ? (
-          <ConnectButton moralisAuth={false} />
+          <div className="flex items-center space-x-4">
+            <ConnectButton moralisAuth={false} />
+            <Button
+              onClick={handleSignOut}
+              text="Logout"
+              size="large"
+              theme="secondary"
+            />
+          </div>
         ) : (
           <Button
             onClick={handleClick}
