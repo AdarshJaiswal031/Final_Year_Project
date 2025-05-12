@@ -5,7 +5,7 @@ import "../styles/globals.css";
 import { NotificationProvider } from "web3uikit";
 function MyApp({ Component, pageProps }) {
   return (
-    <div className="">
+    <div className="overflow-x-hidden">
       <Head>
         <title>NFT Marketplace</title>
         <link rel="icon" href="/favicon.ico" />

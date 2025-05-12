@@ -54,7 +54,9 @@ function generateSHA256Hash(inputString) {
 app.post("/addData", async function (req, res) {
   try {
     const body = req.body;
+    console.log(body)
     if (body.userIdHash === generateSHA256Hash(body.userId)) {
+      console.log("inside")
       await addDataToFirebaseDatabase(body);
       await addToAll(body);
       res.status(200)
@@ -78,7 +80,6 @@ app.post("/createJson", async function (req, res) {
 });
 
 app.post("/getUserProfile", async function (req, res) {
-  console.log(req.body, ";;;;;;;;;;;;;;;;;;;")
   db.ref("users")
     .child(req.body.userIdHash)
     .once("value")
